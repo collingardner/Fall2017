@@ -159,7 +159,6 @@ public class Main {
 	// Called when "=" appears and the str after it is not an integer
 	public static void saveVariableInt(String var, String str) {
 		int num = Integer.parseInt(str);
-		boolean notin = false;
 		// Save to ArrayList of String, String
 		for (int i = 0; i < strList.size(); i++) {
 			if (strList.get(i) != null && strList.get(i).first.equals(var)) {
@@ -185,20 +184,15 @@ public class Main {
 				if (numList.get(n).first.equals(var)) { // this check is if a
 														// var in the list is
 														// equal to given var
-					notin = true;
 					numList.set(n, new Pair<String, Integer>(var, num));
 					break;
 				} else {// Find next null
-					//nEED TO FIX INDEX Here, is index going to be n? or numList.size()
+					//nEED TO FIX INDEX Here, is index going to be n?
 					//TO DO: 
-					//NEED TO LOOP THROUGH ARRAY TO FINE IF VALUE IS IN THERE, if is, replace it, if not add to end
-					// BELOW COULD BE ADDED BACK
-					 //numList.add(n, new Pair<String, Integer>(var, num));
-					//break; // break out for loop
+					numList.add(n, new Pair<String, Integer>(var, num));
+					break; // break out for loop
 				}
-			}
-			if(notin == false){
-				numList.add(numList.size(), new Pair<String, Integer>(var, num));
+
 			}
 		}
 	}// end of saveVariableInt

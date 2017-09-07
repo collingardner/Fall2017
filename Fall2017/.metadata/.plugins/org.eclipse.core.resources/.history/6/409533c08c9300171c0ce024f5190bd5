@@ -159,7 +159,7 @@ public class Main {
 	// Called when "=" appears and the str after it is not an integer
 	public static void saveVariableInt(String var, String str) {
 		int num = Integer.parseInt(str);
-		boolean notin = false;
+		boolean notin = true;
 		// Save to ArrayList of String, String
 		for (int i = 0; i < strList.size(); i++) {
 			if (strList.get(i) != null && strList.get(i).first.equals(var)) {
@@ -196,9 +196,7 @@ public class Main {
 					 //numList.add(n, new Pair<String, Integer>(var, num));
 					//break; // break out for loop
 				}
-			}
-			if(notin == false){
-				numList.add(numList.size(), new Pair<String, Integer>(var, num));
+
 			}
 		}
 	}// end of saveVariableInt

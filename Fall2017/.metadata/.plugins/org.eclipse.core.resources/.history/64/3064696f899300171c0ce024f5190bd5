@@ -53,9 +53,9 @@ public class Main {
 		}
 	//	System.out.println(list.size());
 		for(int i = 0; i < list.size(); i++){
-			//System.out.println("new array");
+		//	System.out.println("new array");
 			for(int k = 0; k < list.get(i).size(); k++){
-				//System.out.println(list.get(i).get(k));
+			//	System.out.println(list.get(i).get(k));
 			}
 		} //this is for testing
 		//parse through every ArrayList in List, determine what each arraylist does
@@ -109,13 +109,9 @@ public class Main {
 				 else if(list.get(i).get(0).equals("PRINT")){
 					 //CALL PRINT FUNCTION; HOW DOES THE PRINT FUNCTION WORK
 					 printScreen(list.get(i).get(1));
-					 System.out.println("printscreen called for " + list.get(i).get(1));
 				 }
 			}
 			
-		}
-		for(int c = 0; c < numList.size(); c++){
-			System.out.println(" var is = "+numList.get(c).first +", value is = "+numList.get(c).second);
 		}
 	}
 	
@@ -159,7 +155,6 @@ public class Main {
 	// Called when "=" appears and the str after it is not an integer
 	public static void saveVariableInt(String var, String str) {
 		int num = Integer.parseInt(str);
-		boolean notin = false;
 		// Save to ArrayList of String, String
 		for (int i = 0; i < strList.size(); i++) {
 			if (strList.get(i) != null && strList.get(i).first.equals(var)) {
@@ -174,7 +169,7 @@ public class Main {
 			if (numList.get(0).first.equals(var)) {// If first thing in list is
 													// equal to what we are
 													// about to add
-				numList.set(0, new Pair<String, Integer>(var, num));
+				numList.add(0, new Pair<String, Integer>(var, num));
 			} else {;
 				numList.add(1, new Pair<String, Integer>(var, num));
 			}
@@ -185,20 +180,13 @@ public class Main {
 				if (numList.get(n).first.equals(var)) { // this check is if a
 														// var in the list is
 														// equal to given var
-					notin = true;
 					numList.set(n, new Pair<String, Integer>(var, num));
 					break;
 				} else {// Find next null
-					//nEED TO FIX INDEX Here, is index going to be n? or numList.size()
-					//TO DO: 
-					//NEED TO LOOP THROUGH ARRAY TO FINE IF VALUE IS IN THERE, if is, replace it, if not add to end
-					// BELOW COULD BE ADDED BACK
-					 //numList.add(n, new Pair<String, Integer>(var, num));
-					//break; // break out for loop
+					numList.add(numList.size(), new Pair<String, Integer>(var, num));
+					break; // break out for loop
 				}
-			}
-			if(notin == false){
-				numList.add(numList.size(), new Pair<String, Integer>(var, num));
+
 			}
 		}
 	}// end of saveVariableInt
@@ -303,19 +291,22 @@ public class Main {
 	public static void printScreen(String str){
 		int ret = 0;
 		String ret2 = "";
+	
+		//if(isNumeric(str2) == true){
+			System.out.println("in print method for numeric");
 			//check numList
 			for(int i = 0; i < numList.size(); i++){
-				if(numList.get(i).first != null && numList.get(i).first.equals(str)){
-					System.out.println("in print method for numeric");
+				if(numList.get(i).first.equals(str)){
 					ret = numList.get(i).second;
 					System.out.println(str+"="+ret);
-					i = numList.size();
 				}
 				}
-			
+			//}
+		//else{
+			//check strList
+			System.out.println("in print method for non numeric");
 			for(int j = 0; j < strList.size(); j++){
-				if(strList.get(j).first != null && strList.get(j).first.equals(str)){
-					System.out.println("in print method for non numeric");
+				if(strList.get(j).first.equals(str)){
 					ret2 = strList.get(j).second;
 					System.out.println(str+"="+ret2);
 				}
