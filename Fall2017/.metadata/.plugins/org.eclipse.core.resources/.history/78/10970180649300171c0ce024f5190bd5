@@ -1,0 +1,218 @@
+
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.Scanner;
+
+
+public class Main {
+	
+	static ArrayList<Pair<String, Integer>> numList =  new ArrayList<Pair<String, Integer>>(50);
+	static ArrayList<Pair<String, String>> strList = new ArrayList<Pair<String, String>>(50);
+	
+	
+	
+	
+	public static void main(String [] args) throws FileNotFoundException {
+		
+		String str = "";
+		int pointer = 0;
+		ArrayList<ArrayList<String>> list = new ArrayList<ArrayList<String>>();
+		for(int i = 0; i < 40;i++){
+			list.add(i, new  ArrayList<String>());
+		}
+		
+		
+		try{
+		Scanner scan = new Scanner(System.in);
+	//	File file = new File(args[1]);
+		File file = new File("test2.txt");
+		scan = new Scanner(file);
+	
+		while(scan.hasNext()){  //This prints out the file line by line, now
+								// to decide what to do with it.
+				str = scan.nextLine();	
+				//System.out.println(str);// HMMMMMM ?
+			String[] words = str.split("\\s+");
+			//System.out.println(words.length);
+			for(int i = 0; i < words.length; i++){
+				list.get(pointer).add(i, words[i]);
+			//	System.out.println(words[i]);
+			}
+
+			pointer += 1;
+		}
+		scan.close();
+	
+
+		
+		}
+		catch (Exception ex){
+			//System.out.println("Error during scanning in file " +ex.toString());
+		}
+		System.out.println(list.size());
+		for(int i = 0; i < list.size(); i++){
+		//	System.out.println("new array");
+			for(int k = 0; k < list.get(i).size(); k++){
+			//	System.out.println(list.get(i).get(k));
+			}
+		} //this is for testing
+		//parse through every ArrayList in List, determine what each arraylist does
+		//THIS DETERMINES THE V
+		
+		for(int i = 0; i < list.size(); i++){
+			//System.out.println(list.size());
+			for(int k = 1; k <list.get(i).size();k++){
+				System.out.println("in k loop today " +list.get(i).size());
+				if(list.get(i).get(k).equals("=") && isNumeric(list.get(i).get(k+1)) == true ){
+				   saveVariableInt(list.get(i).get(k-1), list.get(i).get(k+1));
+					//String var = list.get(i).get(k-1); //Saves 
+					System.out.println("top if "  +list.get(i).get(k-1));
+					System.out.println(list.get(i).get(k+1));
+				//	String num2 = list.get(i).get(k+2);
+				//	int resultnum1 = Integer.parseInt(num1);
+				//	int resultnum2 = Integer.parseInt(num2);
+					
+					//System.out.println("Multiply");
+					
+				}
+			}
+			
+			
+			for(int j = 1; j <list.get(i).size();j++){
+				if(list.get(i).get(j).equals("*")){
+					String num1 = list.get(i).get(j-1);
+					String num2 = list.get(i).get(j+2);
+				//	int resultnum1 = Integer.parseInt(num1);
+					int resultnum2 = Integer.parseInt(num2);
+					
+					System.out.println("Multiply");
+					
+				}
+		// if an equal *= is seen multiplye list.get(k-1) times list.get(i +2)
+	
+		
+		// if an - appears, then subtract list.get(i+2) from list.get(i-1)
+		
+		
+		// if an += appears and list.get(i -1) == number then add to list.get(i+2)
+		
+		// if an += appears add list.get(i-1) to list.get(i+2)
+		
+		// if list.get(0) == "FOR" - then doa for loop
+		//also will need to count through for loops
+		
+			}
+			}
+		
+		
+		//TESTING GOES DOWN HERE
+		System.out.println(" numList.size() = " + numList.size());
+		for(int x = 0; x < numList.size(); x++){
+			System.out.println("var = "+ numList.get(x).first + ",  value = "+ numList.get(x).second);
+		}
+	}
+	
+	//Called when "=" appears without +,-,*
+	public void saveVariableString(String var, String str){
+		int num = Integer.parseInt(str);
+		System.out.println("SaveVariable Called");
+		System.out.println(numList.size());
+		//Save to ArrayList of String, String
+		
+		if(numList.size() < 1){
+			System.out.println("in this");
+			numList.add(new Pair<String, Integer>(var, num));
+			numList.get(0).first = var;
+			numList.get(0).second = num;
+			
+		}
+		
+		
+		for(int i = 0; i < numList.size(); i++){
+			if(numList.get(i).first.equals(var)){
+				numList.get(i).second = null;  //If this doesnt work set the string something weird
+				numList.get(i).first = null;  //Set it equal to Null
+		}
+		}
+		for(int n = 0; n < strList.size(); n++){
+			if(strList.get(n).first.equals(var)){
+				strList.get(n).second = str;
+				
+			}
+			else{//Find next null
+				System.out.println("in else");
+				if(strList.get(n).first.equals(null)){
+					System.out.println(" saving to strList");
+					strList.get(n).first = var;
+					strList.get(n).second = str;
+					break; //break out for loop
+				}
+			}
+			
+			
+		}
+		
+		//Save to ArrayList of String, int
+	}  //end of saveVariableString()
+	
+	//Called when "=" appears with +,-*.
+	public static void saveVariableInt(String var, String str){
+		int num = Integer.parseInt(str);
+		System.out.println("SaveVariableINT Called");
+		
+		System.out.println("numList size = " + numList.size());
+		//Save to ArrayList of String, String
+		
+		if(numList.size() < 1){
+			System.out.println("in this");
+			numList.add(new Pair<String, Integer>(var, num));
+			//numList.get(0).first = var;
+			//numList.get(0).second = num;
+			
+		}
+		
+		for(int i = 0; i < strList.size(); i++){
+			if(strList.get(i).first.equals(var)){
+				numList.add(i, new Pair<String, Integer>(null, null));
+				//numList.get(i).second = null;
+				//numList.get(i).first = null;
+			}
+		}
+		for(int n = 0; n < numList.size(); n++){
+			if(numList.get(n).first.equals(var)){
+				numList.add(n, new Pair<String, Integer>(var, num));
+		//		numList.get(n).second = num;
+				System.out.println("in if");
+				break;
+			}
+			else{//Find next null
+				System.out.println("inelse");
+				if(numList.get(n).first.equals(null)){
+					System.out.println("in else");
+					numList.add(n, new Pair<String, Integer>(var, num));
+				//	numList.get(n).first = var;
+					//numList.get(n).second = num;
+					break; //break out for loop
+				}
+			}
+			
+			
+		}
+	}// end of saveVariableInt
+	
+	public static boolean isNumeric(String str)//Check if str after = is num or int
+	{  
+	  try  
+	  {  
+	    double d = Double.parseDouble(str);  
+	  }  
+	  catch(NumberFormatException nfe)  
+	  {  
+	    return false;  
+	  }  
+	  return true;  
+	}
+	
+}
