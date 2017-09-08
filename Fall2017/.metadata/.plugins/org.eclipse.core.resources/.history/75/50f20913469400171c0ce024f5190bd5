@@ -335,7 +335,7 @@ public class Main {
 		}
 		for(int m = 0; m < strList.size(); m++){
 			if(strList.get(m).first.equals(str2)){
-				strList.set(m, new Pair<String, String>(str1, strList.get(m).second+strList.get(m).second));
+				strList.set(m, new Pair<String, String>(str1, str2+str2));
 				str2IsString = true;
 			}
 		}

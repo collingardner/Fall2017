@@ -326,20 +326,13 @@ public class Main {
 		int save = 0;
 		int num2 = 0;
 		int sum = 0;
-		boolean str2IsString = false;
+		
 		for(int i = 0; i < numList.size(); i++){ //Saves value if it already a number
 			if(numList.get(i).first.equals(str1)){
 				num1 = numList.get(i).second;
 				save = i;
 			}
 		}
-		for(int m = 0; m < strList.size(); m++){
-			if(strList.get(m).first.equals(str2)){
-				strList.set(m, new Pair<String, String>(str1, strList.get(m).second+strList.get(m).second));
-				str2IsString = true;
-			}
-		}
-		
 		System.out.println("str2 is " + str2);
 		//NEED TO ADD CHANGING VARIABLE FROM STRING, TO 
 		if(isNumeric(str2) == true){
@@ -349,12 +342,8 @@ public class Main {
 			numList.set(save,  new Pair<String, Integer>(str1, sum));
 			}
 			catch(Exception ex){
-				System.out.println("RUNTIME ERROR");
+				System.out.println("RUNTIME ERROR" + i);
 			}
-		}
-		//Check to see if string is in strList
-		else if(str2IsString = true){
-			
 		}
 		else{
 			for(int k = 0; k < numList.size(); k++){

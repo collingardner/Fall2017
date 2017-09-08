@@ -1,7 +1,7 @@
 A = 10 ; 
 A += A ; 
 PRINT A ;
-A = hello ;
+A = "hello" ; 
 A += A ;
 PRINT A ; 
 A += 123 ; 
