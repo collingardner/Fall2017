@@ -27,7 +27,7 @@ public class Main {
 		try{
 		Scanner scan = new Scanner(System.in);
 	//	File file = new File(args[1]);
-		File file = new File("test2.txt");
+		File file = new File("test1.txt");
 		scan = new Scanner(file);
 	
 		while(scan.hasNext()){  //This prints out the file line by line, now
@@ -64,18 +64,63 @@ public class Main {
 		
 		
 		for (int i = 0; i < list.size(); i++) {
+			 if(list.get(i).size() >1 && list.get(i).get(0).equals("FOR")){
+					//NESTED FOR IF, ELSE maybe
+						 System.out.println("in for, appear  once");
+					String iter = list.get(i).get(1);
+					int iteration = Integer.parseInt(iter);
+					System.out.println("Iteration is "+iteration);
+					int counter = 2;
+					int count = 0;
+					System.out.println(list.get(i).size()-1);
+						while (count < iteration) {
+							if(counter == list.get(i).size()-1){
+								counter = 2;
+								count++;
+								System.out.println("Did if statemet correctly");
+							}
+							System.out.println("Counter = " + counter);
+							System.out.println("Count = "+ count);
+							if (list.get(i).get(counter).equals("-=")) {
+								subtraction(list.get(i).get(counter - 1), list.get(i).get(counter + 1));
+							}
+							if (list.get(i).get(counter).equals("+=")) {
+								addition(list.get(i).get(counter - 1), list.get(i).get(counter + 1));
+								System.out.println("Adding in a for loop "+list.get(i).get(counter-1)+ " + "+list.get(i).get(counter+1));
+								System.out.println(numList.get(1).second);
+								System.out.println(numList.get(1).first);
+							}
+							if (list.get(i).get(counter).equals("*=")) {
+								
+								multiply(list.get(i).get(counter - 1), list.get(i).get(counter + 1));
+								System.out.println("Multiply in a for loop "+ list.get(i).get(counter-1)+" * "+list.get(i).get(counter+1));
+								System.out.println(list.get(i).get(counter-1));
+								System.out.println(list.get(i).get(counter+1));
+							}
+							if (list.get(i).get(counter).equals("ENDFOR") && count == iteration) {
+								System.out.println("count in break = "+count);
+								break; // break out of the while loop
+							}
+							counter++;
+						}//END OF WHILE
+						System.out.println(numList.get(1).second);
+					}//END OF elseif for "FOR" check for print goes here
 
+			 
 			for (int k = 1; k < list.get(i).size(); k++) {
-				if (list.get(i).get(k).equals("=") && isNumeric(list.get(i).get(k + 1)) == true) {
+				
+
+				 
+			 if (list.get(i).get(k).equals("=") && isNumeric(list.get(i).get(k + 1)) == true) {
 					// if prev equals("*"
 						saveVariableInt(list.get(i).get(k - 1), list.get(i).get(k + 1));
 					
 				} else if (list.get(i).get(k).equals("=") && isNumeric(list.get(i).get(k + 1)) == false) {
 					saveVariableString(list.get(i).get(k - 1), list.get(i).get(k + 1));
-				} else if(list.get(i).get(k).equals("*=")){
+				} else if( !(list.get(i).get(0).equals("FOR")) && list.get(i).get(k).equals("*=")){
 					//System.out.println("IN MULTIPLY METHOD");
 					 multiply(list.get(i).get(k-1), list.get(i).get(k+1));
-				} else if(list.get(i).get(k).equals("+=")){
+				} else if( !(list.get(i).get(0).equals("FOR")) && list.get(i).get(k).equals("+=")){
 					//CALL ADDITION
 					addition(list.get(i).get(k-1), list.get(i).get(k+1));
 				} else if(list.get(i).get(k).equals("-=")){
@@ -83,35 +128,17 @@ public class Main {
 					subtraction(list.get(i).get(k-1), list.get(i).get(k+1));
 				}
 				//ADD FOR and NESTED FOR
-				 else if(list.get(i).get(0).equals("FOR")){
-				//NESTED FOR IF, ELSE maybe
-					 
-				String iter = list.get(i).get(1);
-				int interation = Integer.parseInt(iter);
-				int counter = 2;
-				
-					while (true) {
-						if (list.get(i).get(counter).equals("-=")) {
-							subtraction(list.get(i).get(counter - 1), list.get(i).get(counter + 1));
-						}
-						if (list.get(i).get(counter).equals("+=")) {
-							addition(list.get(i).get(counter - 1), list.get(i).get(counter + 1));
-						}
-						if (list.get(i).get(counter).equals("*=")) {
-							multiply(list.get(i).get(counter - 1), list.get(i).get(counter + 1));
-						}
-						if (list.get(i).get(counter).equals("ENDFOR")) {
-							break; // break out of the while loop
-						}
-						counter++;
-					}//END OF WHILE
-				}//END OF elseif for "FOR"
-				 else if(list.get(i).get(0).equals("PRINT")){
-					 //CALL PRINT FUNCTION; HOW DOES THE PRINT FUNCTION WORK
-					 printScreen(list.get(i).get(1));
-					 System.out.println("printscreen called for " + list.get(i).get(1));
-				 }
-			}
+//Nested for was here
+
+			}  //THE FOR LOOP ISNT PROPERLY SAVING THE VARIABLES, CREATE REASSIGNMENT Statments for A += B;
+			
+			 
+			//Check for print goeshere
+			if(list.get(i).size() > 1 && list.get(i).get(0).equals("PRINT")){
+				 //CALL PRINT FUNCTION; HOW DOES THE PRINT FUNCTION WORK
+				 printScreen(list.get(i).get(1));
+			//	 System.out.println("printscreen called for " + list.get(i).get(1));
+			 }
 			
 		}
 		for(int c = 0; c < numList.size(); c++){
@@ -124,7 +151,7 @@ public class Main {
 		// Save to ArrayList of String, String 
 		for (int i = 0; i < numList.size(); i++) {
 			if (numList.get(i).first != null && numList.get(i).first.equals(var)) {
-				numList.set(i, new Pair<String, Integer>(null, null));
+				numList.remove(i);//.set(i, new Pair<String, Integer>(null, null));
 			}
 		}
 
@@ -163,7 +190,7 @@ public class Main {
 		// Save to ArrayList of String, String
 		for (int i = 0; i < strList.size(); i++) {
 			if (strList.get(i) != null && strList.get(i).first.equals(var)) {
-				strList.set(i, new Pair<String, String>(null, null));
+				strList.remove(i);//(i, new Pair<String, String>(null, null));
 			}
 		}
 
@@ -198,7 +225,7 @@ public class Main {
 				}
 			}
 			if(notin == false){
-				numList.add(numList.size(), new Pair<String, Integer>(var, num));
+				numList.add(numList.size(), new Pair<String, Integer>(var, num)); //THIS FIXED IT
 			}
 		}
 	}// end of saveVariableInt
@@ -231,7 +258,7 @@ public class Main {
 		
 		if(isNumeric(str2) == true){
 			num2 = Integer.parseInt(str2);
-			product = num1* num2;
+			product = num1 * num2;
 			numList.set(save,  new Pair<String, Integer>(str1, product));
 		}
 		else{
@@ -239,7 +266,7 @@ public class Main {
 				if(numList.get(k).first.equals(str2)){
 					num2 = numList.get(k).second;
 				    product = num1 * num2;
-					numList.set(save, new Pair<String, Integer>(str2, product));
+					numList.set(save, new Pair<String, Integer>(str1, product));
 				}
 			}
 		}
@@ -250,7 +277,7 @@ public class Main {
 		int num2 = 0;
 		int sum = 0;
 		
-		for(int i = 0; i < numList.size(); i++){
+		for(int i = 0; i < numList.size(); i++){ //Saves value if it already a number
 			if(numList.get(i).first.equals(str1)){
 				num1 = numList.get(i).second;
 				save = i;
@@ -267,7 +294,7 @@ public class Main {
 				if(numList.get(k).first.equals(str2)){
 					num2 = numList.get(k).second;
 				    sum = num1 + num2;
-					numList.set(save, new Pair<String, Integer>(str2, sum));
+					numList.set(save, new Pair<String, Integer>(str1, sum));//this was previously str2
 				}
 			}
 		}
@@ -295,18 +322,19 @@ public class Main {
 				if(numList.get(k).first.equals(str2)){
 					num2 = numList.get(k).second;
 				    difference = num1 - num2;
-					numList.set(save, new Pair<String, Integer>(str2, difference));
+					numList.set(save, new Pair<String, Integer>(str1, difference));
 				}
 			}
 		}
 	} //End of subtraction method
 	public static void printScreen(String str){
+		
 		int ret = 0;
 		String ret2 = "";
 			//check numList
 			for(int i = 0; i < numList.size(); i++){
 				if(numList.get(i).first != null && numList.get(i).first.equals(str)){
-					System.out.println("in print method for numeric");
+					System.out.println("in print method for numeric value " + i);
 					ret = numList.get(i).second;
 					System.out.println(str+"="+ret);
 					i = numList.size();
@@ -315,7 +343,7 @@ public class Main {
 			
 			for(int j = 0; j < strList.size(); j++){
 				if(strList.get(j).first != null && strList.get(j).first.equals(str)){
-					System.out.println("in print method for non numeric");
+				//	System.out.println("in print method for non numeric");
 					ret2 = strList.get(j).second;
 					System.out.println(str+"="+ret2);
 				}

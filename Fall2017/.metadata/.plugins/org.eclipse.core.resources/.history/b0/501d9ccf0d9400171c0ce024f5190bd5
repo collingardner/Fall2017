@@ -1,0 +1,15 @@
+A = 9 ;
+B = 7 ; 
+C = 4 ;
+D = 10 ;
+A *= 8 ; 
+A -= 3 ;
+A -= 5 ;
+D += 10 ;
+B = 111 ;
+C = cat ;
+A += 1000;
+PRINT A ; 
+PRINT B ; 
+PRINT C ;
+PRINT D ;
