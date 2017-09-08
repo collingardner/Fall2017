@@ -36,25 +36,20 @@ public class Main {
 		}
 		catch (Exception ex){
 			//System.out.println("Error during scanning in file " +ex.toString());
-		};
+		}
+	//	System.out.println(list.size());
 		for(int i = 0; i < list.size(); i++){
 			//System.out.println("new array");
 			for(int k = 0; k < list.get(i).size(); k++){
 				//System.out.println(list.get(i).get(k));
 			}
 		} //this is for testing
-
+		//parse through every ArrayList in List, determine what each arraylist does
+		//THIS DETERMINES THE V
+		//ALSO check for null pointer exceptions
+		
+		
 		for (int i = 0; i < list.size(); i++) {
-			//check for RUN TIME ERRORS HERE
-			if(list.get(i).size() ==1  ){
-				System.out.println("RUNTIME ERROR");
-				break;//RUN TIME ERROR, SO BREAK OUT OF FOR LOOP
-			}
-			if(list.get(i).size() > 1 && !(list.get(i).get(list.get(i).size()-1).equals(";") ) && !(list.get(i).get(list.get(i).size()-1).equals("ENDFOR") ) ){
-				System.out.println("RUNTIME ERROR- did not end line properly");
-				break; //RUN TIME ERROR, SO BREAK OUT OF FOR LOOP
-			}
-			//END OF CHECKING FOR RUNTIME ERRORS
 			 if(list.get(i).size() >1 && list.get(i).get(0).equals("FOR")){
 					//NESTED FOR IF, ELSE maybe
 				 //Search for a nested for
@@ -185,10 +180,15 @@ public class Main {
 //Nested for was here
 
 			}  //THE FOR LOOP ISNT PROPERLY SAVING THE VARIABLES, CREATE REASSIGNMENT Statments for A += B;
+			
+			 
 			//Check for print goeshere
 			if(list.get(i).size() > 1 && list.get(i).get(0).equals("PRINT")){
+				 //CALL PRINT FUNCTION; HOW DOES THE PRINT FUNCTION WORK
 				 printScreen(list.get(i).get(1));
+			//	 System.out.println("printscreen called for " + list.get(i).get(1));
 			 }
+			
 		}
 		for(int c = 0; c < numList.size(); c++){
 			System.out.println(" var is = "+numList.get(c).first +", value is = "+numList.get(c).second);

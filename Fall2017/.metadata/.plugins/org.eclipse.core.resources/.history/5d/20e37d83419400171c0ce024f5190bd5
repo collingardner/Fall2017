@@ -43,18 +43,12 @@ public class Main {
 				//System.out.println(list.get(i).get(k));
 			}
 		} //this is for testing
-
+		//parse through every ArrayList in List, determine what each arraylist does
+		//THIS DETERMINES THE V
+		//ALSO check for null pointer exceptions
+		
+		
 		for (int i = 0; i < list.size(); i++) {
-			//check for RUN TIME ERRORS HERE
-			if(list.get(i).size() ==1  ){
-				System.out.println("RUNTIME ERROR");
-				break;//RUN TIME ERROR, SO BREAK OUT OF FOR LOOP
-			}
-			if(list.get(i).size() > 1 && !(list.get(i).get(list.get(i).size()-1).equals(";") ) && !(list.get(i).get(list.get(i).size()-1).equals("ENDFOR") ) ){
-				System.out.println("RUNTIME ERROR- did not end line properly");
-				break; //RUN TIME ERROR, SO BREAK OUT OF FOR LOOP
-			}
-			//END OF CHECKING FOR RUNTIME ERRORS
 			 if(list.get(i).size() >1 && list.get(i).get(0).equals("FOR")){
 					//NESTED FOR IF, ELSE maybe
 				 //Search for a nested for

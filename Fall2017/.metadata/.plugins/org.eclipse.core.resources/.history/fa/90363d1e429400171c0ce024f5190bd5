@@ -48,11 +48,9 @@ public class Main {
 			//check for RUN TIME ERRORS HERE
 			if(list.get(i).size() ==1  ){
 				System.out.println("RUNTIME ERROR");
-				break;//RUN TIME ERROR, SO BREAK OUT OF FOR LOOP
 			}
-			if(list.get(i).size() > 1 && !(list.get(i).get(list.get(i).size()-1).equals(";") ) && !(list.get(i).get(list.get(i).size()-1).equals("ENDFOR") ) ){
-				System.out.println("RUNTIME ERROR- did not end line properly");
-				break; //RUN TIME ERROR, SO BREAK OUT OF FOR LOOP
+			if(list.get(i).size() > 1 && !(list.get(i).get(list.get(i).size()-1).equals(";") )){
+				System.out.println("RUNTIME ERROR");
 			}
 			//END OF CHECKING FOR RUNTIME ERRORS
 			 if(list.get(i).size() >1 && list.get(i).get(0).equals("FOR")){
