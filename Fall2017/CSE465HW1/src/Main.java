@@ -27,7 +27,7 @@ public class Main {
 		try{
 		Scanner scan = new Scanner(System.in);
 	//	File file = new File(args[1]);
-		File file = new File("test1.txt");
+		File file = new File("test3.txt");
 		scan = new Scanner(file);
 	
 		while(scan.hasNext()){  //This prints out the file line by line, now
@@ -66,51 +66,117 @@ public class Main {
 		for (int i = 0; i < list.size(); i++) {
 			 if(list.get(i).size() >1 && list.get(i).get(0).equals("FOR")){
 					//NESTED FOR IF, ELSE maybe
-						 System.out.println("in for, appear  once");
+				 //Search for a nested for
+				 //If found, then just do for loop functionality,  if "FOR" is found do number of iterations, till done
+				 // and "END FOR" Is found, also save spot where end for is, and start up out for loop functionality
+				 // at END FOR spot + 1;
+				 int fornum = 0;
+				 //this counts number of for loops
+				 for(int m = 0; m < list.get(i).size(); m++){
+					 if(list.get(i).get(m).equals("FOR")){
+						 fornum++;
+					 }
+				 }
+				System.out.println("fornum = " + fornum);
+				 if(fornum ==2){
+						String iter = list.get(i).get(1);
+						int iteration = Integer.parseInt(iter);
+						int counter = 2;//counter starts at 2, cause that is the begininning of where to start scanning the line, 
+						int count = 0;
+							while (count < iteration) {
+								if(counter == list.get(i).size()-1){ //inter counter went to high, set back to 2
+									counter = 2;
+									count++;
+								}
+								if (list.get(i).get(counter).equals("-=")) {
+									subtraction(list.get(i).get(counter - 1), list.get(i).get(counter + 1));
+								}
+								if (list.get(i).get(counter).equals("+=")) {
+									addition(list.get(i).get(counter - 1), list.get(i).get(counter + 1));
+								}
+								if (list.get(i).get(counter).equals("*=")) {
+									multiply(list.get(i).get(counter - 1), list.get(i).get(counter + 1));
+									System.out.println("I should see this 5 times");
+								}
+								if(list.get(i).get(counter).equals("FOR")){
+									String interIter = list.get(i).get(counter+1);//get the next value next to for
+									int interIteration = Integer.parseInt(interIter);
+									int interCounter = counter +2;
+									int interCount = 0;
+									int holder = counter;
+									int searcher = counter;
+									int counterAdder =0;
+									//COUNTER NEEDS TO BE ADJUSTED SO THAT goes till it finds the next ENDFOR
+									while(true){
+										if(list.get(i).get(searcher).equals("ENDFOR")){
+											counter = counter + counterAdder;
+											break;
+										} else{
+											searcher += 1;
+											counterAdder += 1;
+										}
+									}
+									
+										while (interCount < interIteration) {
+											//see if this statement 
+											if(interCounter == holder + 4){// list.get(i).size()-1){
+												interCounter = holder + 2;
+												interCount++;
+											}
+											if (list.get(i).get(interCounter).equals("-=")) {
+												subtraction(list.get(i).get(interCounter - 1), list.get(i).get(interCounter + 1));
+											}
+											else if (list.get(i).get(interCounter).equals("+=")) {
+												addition(list.get(i).get(interCounter - 1), list.get(i).get(interCounter + 1));
+											}
+											else if (list.get(i).get(interCounter).equals("*=")) {
+												multiply(list.get(i).get(interCounter - 1), list.get(i).get(interCounter + 1));
+											}
+											else if (list.get(i).get(interCounter).equals("ENDFOR") && interCount == interIteration) {
+												counter = interCounter;
+												System.out.println(" counter = "+ counter);
+												break; // break out of the while loop
+											}
+											interCounter++;
+										}//END OF WHILE	
+								}
+								if (list.get(i).get(counter).equals("ENDFOR") && count == iteration) {
+									break; // break out of the while loop
+								}
+								counter++;
+							}//END OF WHILE
+				 }
+				 //ELSE would be this, this is for a regular for 
+				 else{
+					 System.out.println("This Shouldnt run");
 					String iter = list.get(i).get(1);
 					int iteration = Integer.parseInt(iter);
-					System.out.println("Iteration is "+iteration);
 					int counter = 2;
 					int count = 0;
-					System.out.println(list.get(i).size()-1);
 						while (count < iteration) {
 							if(counter == list.get(i).size()-1){
 								counter = 2;
 								count++;
-								System.out.println("Did if statemet correctly");
 							}
-							System.out.println("Counter = " + counter);
-							System.out.println("Count = "+ count);
 							if (list.get(i).get(counter).equals("-=")) {
 								subtraction(list.get(i).get(counter - 1), list.get(i).get(counter + 1));
 							}
 							if (list.get(i).get(counter).equals("+=")) {
 								addition(list.get(i).get(counter - 1), list.get(i).get(counter + 1));
-								System.out.println("Adding in a for loop "+list.get(i).get(counter-1)+ " + "+list.get(i).get(counter+1));
-								System.out.println(numList.get(1).second);
-								System.out.println(numList.get(1).first);
 							}
 							if (list.get(i).get(counter).equals("*=")) {
-								
 								multiply(list.get(i).get(counter - 1), list.get(i).get(counter + 1));
-								System.out.println("Multiply in a for loop "+ list.get(i).get(counter-1)+" * "+list.get(i).get(counter+1));
-								System.out.println(list.get(i).get(counter-1));
-								System.out.println(list.get(i).get(counter+1));
 							}
 							if (list.get(i).get(counter).equals("ENDFOR") && count == iteration) {
-								System.out.println("count in break = "+count);
+								System.out.println("BREAKING");
 								break; // break out of the while loop
 							}
 							counter++;
-						}//END OF WHILE
-						System.out.println(numList.get(1).second);
+						}//END OF WHILE	
+				 }//END of single For ELSE GOES HERE
 					}//END OF elseif for "FOR" check for print goes here
 
-			 
-			for (int k = 1; k < list.get(i).size(); k++) {
-				
-
-				 
+			for (int k = 1; k < list.get(i).size(); k++) { 
 			 if (list.get(i).get(k).equals("=") && isNumeric(list.get(i).get(k + 1)) == true) {
 					// if prev equals("*"
 						saveVariableInt(list.get(i).get(k - 1), list.get(i).get(k + 1));
@@ -334,7 +400,6 @@ public class Main {
 			//check numList
 			for(int i = 0; i < numList.size(); i++){
 				if(numList.get(i).first != null && numList.get(i).first.equals(str)){
-					System.out.println("in print method for numeric value " + i);
 					ret = numList.get(i).second;
 					System.out.println(str+"="+ret);
 					i = numList.size();
@@ -343,7 +408,6 @@ public class Main {
 			
 			for(int j = 0; j < strList.size(); j++){
 				if(strList.get(j).first != null && strList.get(j).first.equals(str)){
-				//	System.out.println("in print method for non numeric");
 					ret2 = strList.get(j).second;
 					System.out.println(str+"="+ret2);
 				}

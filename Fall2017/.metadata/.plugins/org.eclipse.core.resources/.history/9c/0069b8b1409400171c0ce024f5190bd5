@@ -1,0 +1,427 @@
+
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.Scanner;
+
+
+public class Main {
+	
+	static ArrayList<Pair<String, Integer>> numList =  new ArrayList<Pair<String, Integer>>(50);
+	static ArrayList<Pair<String, String>> strList = new ArrayList<Pair<String, String>>(50);
+	
+	
+	
+	
+	public static void main(String [] args) throws FileNotFoundException {
+		
+		String str = "";
+		int pointer = 0;
+		ArrayList<ArrayList<String>> list = new ArrayList<ArrayList<String>>();
+		for(int i = 0; i < 40;i++){
+			list.add(i, new  ArrayList<String>());
+		}
+		
+		
+		try{
+		Scanner scan = new Scanner(System.in);
+	//	File file = new File(args[1]);
+		File file = new File("test3.txt");
+		scan = new Scanner(file);
+	
+		while(scan.hasNext()){  //This prints out the file line by line, now
+								// to decide what to do with it.
+				str = scan.nextLine();	
+				//System.out.println(str);// HMMMMMM ?
+			String[] words = str.split("\\s+");
+			//System.out.println(words.length);
+			for(int i = 0; i < words.length; i++){
+				list.get(pointer).add(i, words[i]);
+			//	System.out.println(words[i]);
+			}
+
+			pointer += 1;
+		}
+		scan.close();
+	
+
+		
+		}
+		catch (Exception ex){
+			//System.out.println("Error during scanning in file " +ex.toString());
+		}
+	//	System.out.println(list.size());
+		for(int i = 0; i < list.size(); i++){
+			//System.out.println("new array");
+			for(int k = 0; k < list.get(i).size(); k++){
+				//System.out.println(list.get(i).get(k));
+			}
+		} //this is for testing
+		//parse through every ArrayList in List, determine what each arraylist does
+		//THIS DETERMINES THE V
+		//ALSO check for null pointer exceptions
+		
+		
+		for (int i = 0; i < list.size(); i++) {
+			 if(list.get(i).size() >1 && list.get(i).get(0).equals("FOR")){
+					//NESTED FOR IF, ELSE maybe
+				 //Search for a nested for
+				 //If found, then just do for loop functionality,  if "FOR" is found do number of iterations, till done
+				 // and "END FOR" Is found, also save spot where end for is, and start up out for loop functionality
+				 // at END FOR spot + 1;
+				 int fornum = 0;
+				 //this counts number of for loops
+				 for(int m = 0; m < list.get(i).size(); m++){
+					 if(list.get(i).get(m).equals("FOR")){
+						 fornum++;
+					 }
+				 }
+				System.out.println("fornum = " + fornum);
+				 if(fornum ==2){
+						String iter = list.get(i).get(1);
+						int iteration = Integer.parseInt(iter);
+						int counter = 2;//counter starts at 2, cause that is the begininning of where to start scanning the line, 
+						int count = 0;
+							while (count < iteration) {
+								if(counter == list.get(i).size()-1){ //inter counter went to high, set back to 2
+									counter = 2;
+									count++;
+								}
+								if (list.get(i).get(counter).equals("-=")) {
+									subtraction(list.get(i).get(counter - 1), list.get(i).get(counter + 1));
+								}
+								if (list.get(i).get(counter).equals("+=")) {
+									addition(list.get(i).get(counter - 1), list.get(i).get(counter + 1));
+								}
+								if (list.get(i).get(counter).equals("*=")) {
+									multiply(list.get(i).get(counter - 1), list.get(i).get(counter + 1));
+									System.out.println("I should see this 5 times");
+								}
+								if(list.get(i).get(counter).equals("FOR")){
+									//
+									
+									System.out.println("Counter = " + counter);
+									String interIter = list.get(i).get(counter+1);//get the next value next to for
+									System.out.println("InterIter = "+ interIter);
+									int interIteration = Integer.parseInt(interIter);
+									int interCounter = counter +2;
+									int interCount = 0;
+									int holder = counter;
+									int searcher = counter;
+									int counterAdder =0;
+									//COUNTER NEEDS TO BE ADJUSTED SO THAT goes till it finds the next ENDFOR
+									while(true){
+										if(list.get(i).get(searcher).equals("ENDFOR")){
+											counter = counter + counterAdder;
+											break;
+										} else{
+											searcher += 1;
+											counterAdder += 1;
+										}
+									}
+									
+										while (interCount < interIteration) {
+											//see if this statement 
+											if(interCounter == holder + 4){// list.get(i).size()-1){
+												interCounter = holder + 2;
+												interCount++;
+												System.out.println("interCount is "+ interCount);
+											}
+											if (list.get(i).get(interCounter).equals("-=")) {
+												subtraction(list.get(i).get(interCounter - 1), list.get(i).get(interCounter + 1));
+											}
+											else if (list.get(i).get(interCounter).equals("+=")) {
+												addition(list.get(i).get(interCounter - 1), list.get(i).get(interCounter + 1));
+											}
+											else if (list.get(i).get(interCounter).equals("*=")) {
+												multiply(list.get(i).get(interCounter - 1), list.get(i).get(interCounter + 1));
+											}
+											else if (list.get(i).get(interCounter).equals("ENDFOR") && interCount == interIteration) {
+												counter = interCounter;
+												System.out.println(" counter = "+ counter);
+												break; // break out of the while loop
+											}
+											//counter= interCounter-1;
+											interCounter++;
+										}//END OF WHILE	
+								}
+								if (list.get(i).get(counter).equals("ENDFOR") && count == iteration) {
+									break; // break out of the while loop
+								}
+								counter++;
+							}//END OF WHILE
+							
+							//END of single For ELSE GOES HERE
+						//END OF elseif for "FOR" check for print goes here
+
+				 }
+				 //ELSE would be this, this is for a regular for 
+				 else{
+					 System.out.println("This Shouldnt run");
+					String iter = list.get(i).get(1);
+					int iteration = Integer.parseInt(iter);
+					int counter = 2;
+					int count = 0;
+						while (count < iteration) {
+							if(counter == list.get(i).size()-1){
+								counter = 2;
+								count++;
+							}
+							if (list.get(i).get(counter).equals("-=")) {
+								subtraction(list.get(i).get(counter - 1), list.get(i).get(counter + 1));
+							}
+							if (list.get(i).get(counter).equals("+=")) {
+								addition(list.get(i).get(counter - 1), list.get(i).get(counter + 1));
+							}
+							if (list.get(i).get(counter).equals("*=")) {
+								multiply(list.get(i).get(counter - 1), list.get(i).get(counter + 1));
+							}
+							if (list.get(i).get(counter).equals("ENDFOR") && count == iteration) {
+								System.out.println("BREAKING");
+								break; // break out of the while loop
+							}
+							counter++;
+						}//END OF WHILE	
+				 }//END of single For ELSE GOES HERE
+					}//END OF elseif for "FOR" check for print goes here
+
+			for (int k = 1; k < list.get(i).size(); k++) { 
+			 if (list.get(i).get(k).equals("=") && isNumeric(list.get(i).get(k + 1)) == true) {
+					// if prev equals("*"
+						saveVariableInt(list.get(i).get(k - 1), list.get(i).get(k + 1));
+					
+				} else if (list.get(i).get(k).equals("=") && isNumeric(list.get(i).get(k + 1)) == false) {
+					saveVariableString(list.get(i).get(k - 1), list.get(i).get(k + 1));
+				} else if( !(list.get(i).get(0).equals("FOR")) && list.get(i).get(k).equals("*=")){
+					//System.out.println("IN MULTIPLY METHOD");
+					 multiply(list.get(i).get(k-1), list.get(i).get(k+1));
+				} else if( !(list.get(i).get(0).equals("FOR")) && list.get(i).get(k).equals("+=")){
+					//CALL ADDITION
+					addition(list.get(i).get(k-1), list.get(i).get(k+1));
+				} else if(list.get(i).get(k).equals("-=")){
+					//CALL SUBTRACTION
+					subtraction(list.get(i).get(k-1), list.get(i).get(k+1));
+				}
+				//ADD FOR and NESTED FOR
+//Nested for was here
+
+			}  //THE FOR LOOP ISNT PROPERLY SAVING THE VARIABLES, CREATE REASSIGNMENT Statments for A += B;
+			
+			 
+			//Check for print goeshere
+			if(list.get(i).size() > 1 && list.get(i).get(0).equals("PRINT")){
+				 //CALL PRINT FUNCTION; HOW DOES THE PRINT FUNCTION WORK
+				 printScreen(list.get(i).get(1));
+			//	 System.out.println("printscreen called for " + list.get(i).get(1));
+			 }
+			
+		}
+		for(int c = 0; c < numList.size(); c++){
+			System.out.println(" var is = "+numList.get(c).first +", value is = "+numList.get(c).second);
+		}
+	}
+	
+	//Called when "=" appears without +,-,*
+	public static void saveVariableString(String var, String str){
+		// Save to ArrayList of String, String 
+		for (int i = 0; i < numList.size(); i++) {
+			if (numList.get(i).first != null && numList.get(i).first.equals(var)) {
+				numList.remove(i);//.set(i, new Pair<String, Integer>(null, null));
+			}
+		}
+
+		// Base Case
+		if (strList.size() < 1) {
+			strList.add(0, new Pair<String, String>(var, str));
+		} else if (strList.size() == 1) {
+			if (strList.get(0).first.equals(var)) {// If first thing in list is									// about to add
+				strList.add(0, new Pair<String, String>(var, str));
+			} else {
+				strList.add(1, new Pair<String, String>(var, str));
+			}
+		}
+		else {
+			for (int n = 0; n < numList.size(); n++) {
+				//System.out.println("n value is " + n);
+				if (numList.get(n).first.equals(var)) { // this check is if a
+														// var in the list is
+														// equal to given var
+					strList.set(n, new Pair<String, String>(var, str));
+					break;
+				} else {// Find next null
+					strList.add(strList.size(), new Pair<String, String>(var, str));
+					break; // break out for loop
+				}
+
+			}
+		}
+		//Save to ArrayList of String, int
+	}  //end of saveVariableString()
+	
+	// Called when "=" appears and the str after it is not an integer
+	public static void saveVariableInt(String var, String str) {
+		int num = Integer.parseInt(str);
+		boolean notin = false;
+		// Save to ArrayList of String, String
+		for (int i = 0; i < strList.size(); i++) {
+			if (strList.get(i) != null && strList.get(i).first.equals(var)) {
+				strList.remove(i);//(i, new Pair<String, String>(null, null));
+			}
+		}
+
+		// Base Case
+		if (numList.size() < 1) {
+			numList.add(0, new Pair<String, Integer>(var, num));
+		} else if (numList.size() == 1) {
+			if (numList.get(0).first.equals(var)) {// If first thing in list is
+													// equal to what we are
+													// about to add
+				numList.set(0, new Pair<String, Integer>(var, num));
+			} else {;
+				numList.add(1, new Pair<String, Integer>(var, num));
+			}
+		}
+
+		else {
+			for (int n = 0; n < numList.size(); n++) {
+				if (numList.get(n).first.equals(var)) { // this check is if a
+														// var in the list is
+														// equal to given var
+					notin = true;
+					numList.set(n, new Pair<String, Integer>(var, num));
+					break;
+				} else {// Find next null
+					//nEED TO FIX INDEX Here, is index going to be n? or numList.size()
+					//TO DO: 
+					//NEED TO LOOP THROUGH ARRAY TO FINE IF VALUE IS IN THERE, if is, replace it, if not add to end
+					// BELOW COULD BE ADDED BACK
+					 //numList.add(n, new Pair<String, Integer>(var, num));
+					//break; // break out for loop
+				}
+			}
+			if(notin == false){
+				numList.add(numList.size(), new Pair<String, Integer>(var, num)); //THIS FIXED IT
+			}
+		}
+	}// end of saveVariableInt
+	
+	public static boolean isNumeric(String str)//Check if str after = is num or int
+	{  
+	  try  
+	  {  
+	    double d = Double.parseDouble(str);  
+	  }  
+	  catch(NumberFormatException nfe)  
+	  {  
+	    return false;  
+	  }  
+	  return true;  
+	}
+	
+	public static void multiply(String str1, String str2){
+		int num1 = 0;
+		int save = 0;
+		int num2 = 0;
+		int product = 0;
+		
+		for(int i = 0; i < numList.size(); i++){
+			if(numList.get(i).first.equals(str1)){
+				num1 = numList.get(i).second;
+				save = i;
+			}
+		}
+		
+		if(isNumeric(str2) == true){
+			num2 = Integer.parseInt(str2);
+			product = num1 * num2;
+			numList.set(save,  new Pair<String, Integer>(str1, product));
+		}
+		else{
+			for(int k = 0; k < numList.size(); k++){
+				if(numList.get(k).first.equals(str2)){
+					num2 = numList.get(k).second;
+				    product = num1 * num2;
+					numList.set(save, new Pair<String, Integer>(str1, product));
+				}
+			}
+		}
+	} //End of multiply method
+	public static void addition(String str1, String str2){
+		int num1 = 0;
+		int save = 0;
+		int num2 = 0;
+		int sum = 0;
+		
+		for(int i = 0; i < numList.size(); i++){ //Saves value if it already a number
+			if(numList.get(i).first.equals(str1)){
+				num1 = numList.get(i).second;
+				save = i;
+			}
+		}
+		
+		if(isNumeric(str2) == true){
+			num2 = Integer.parseInt(str2);
+			sum = num1 + num2;
+			numList.set(save,  new Pair<String, Integer>(str1, sum));
+		}
+		else{
+			for(int k = 0; k < numList.size(); k++){
+				if(numList.get(k).first.equals(str2)){
+					num2 = numList.get(k).second;
+				    sum = num1 + num2;
+					numList.set(save, new Pair<String, Integer>(str1, sum));//this was previously str2
+				}
+			}
+		}
+	} //End of addition method
+	public static void subtraction(String str1, String str2){
+		int num1 = 0;
+		int save = 0;
+		int num2 = 0;
+		int difference = 0;
+		
+		for(int i = 0; i < numList.size(); i++){
+			if(numList.get(i).first.equals(str1)){
+				num1 = numList.get(i).second;
+				save = i;
+			}
+		}
+		
+		if(isNumeric(str2) == true){
+			num2 = Integer.parseInt(str2);
+			difference = num1 - num2;
+			numList.set(save,  new Pair<String, Integer>(str1, difference));
+		}
+		else{
+			for(int k = 0; k < numList.size(); k++){
+				if(numList.get(k).first.equals(str2)){
+					num2 = numList.get(k).second;
+				    difference = num1 - num2;
+					numList.set(save, new Pair<String, Integer>(str1, difference));
+				}
+			}
+		}
+	} //End of subtraction method
+	public static void printScreen(String str){
+		
+		int ret = 0;
+		String ret2 = "";
+			//check numList
+			for(int i = 0; i < numList.size(); i++){
+				if(numList.get(i).first != null && numList.get(i).first.equals(str)){
+					ret = numList.get(i).second;
+					System.out.println(str+"="+ret);
+					i = numList.size();
+				}
+				}
+			
+			for(int j = 0; j < strList.size(); j++){
+				if(strList.get(j).first != null && strList.get(j).first.equals(str)){
+					ret2 = strList.get(j).second;
+					System.out.println(str+"="+ret2);
+				}
+			}
+		//}	
+	}
+}
